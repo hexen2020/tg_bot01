@@ -6,7 +6,7 @@ const bot = new TelegramBot(token, { polling: true })
 
 
 //конфиг клавиатуры
-const keyboard = [
+const keyboard1 = [
     [
       {
         text: '📝Заполнить анкету', // текст на кнопке
@@ -28,7 +28,7 @@ const keyboard = [
     [
         {
           text: '⁉Помощь',
-          url: 'https://htmlacademy.ru/blog/js/telegram-bot' //внешняя ссылка
+          callback_data: 'more4'
         }
       ]
   ];
@@ -40,7 +40,7 @@ bot.on('message', (msg) => {
   // отправляем сообщение
   bot.sendMessage(chatId, 'Текст приветствия', { // прикрутим клаву
         reply_markup: {
-            inline_keyboard: keyboard
+            inline_keyboard: keyboard1
         }
     });
 });
@@ -58,6 +58,77 @@ bot.on('callback_query', (query) => {
         bot.sendMessage(chatId, "Ответ 2");
     }
     if (query.data === 'more3') { 
-      bot.sendMessage(chatId, "Ответ 3");
+      bot.sendMessage(chatId, "⭐Популярные предложения", {
+        reply_markup: {
+          inline_keyboard: keyboard2}
+      });
   }
+  if (query.data === 'more4') { 
+    bot.sendMessage(chatId, "Чем мы можем помочь?", {
+      reply_markup: {
+        inline_keyboard: keyboard3}
+    });
+}
   });
+
+  //конфиг клавиатуры
+const keyboard2 = [
+  [
+    {
+      text: 'Под 0%', // текст на кнопке
+      callback_data: 'k21' // данные для обработчика событий
+    }
+  ],
+  [
+      {
+        text: 'С плохой кредитной историей',
+        callback_data: 'k22'
+      }
+  ],
+  [
+    {
+      text: 'На QIWI',
+      callback_data: 'к23'
+    }
+],
+  [
+    {
+      text: 'На Yandex.Деньги',
+      callback_data: 'к24'
+    }
+],
+[
+  {
+    text: 'Наличными через Контакт',
+    callback_data: 'к25'
+  }
+],
+[
+  {
+    text: 'Все варианты',
+    callback_data: 'к26'
+  }
+],
+];
+
+ //конфиг клавиатуры
+ const keyboard3 = [
+  [
+    {
+      text: 'Как подобрать выгодный займ?', // текст на кнопке
+      callback_data: 'k31' // данные для обработчика событий
+    }
+  ],
+  [
+      {
+        text: 'Как выбрать займ в популярных предложениях?',
+        callback_data: 'k32'
+      }
+  ],
+  [
+    {
+      text: 'Как сменить страну или возраст?',
+      callback_data: 'к33'
+    }
+]
+ ];
