@@ -238,6 +238,13 @@ class BotManager {
                 
             }
         })
+        if (!result)
+        {
+          return {
+            msg:"Не понимать",
+            opts:{}
+          }
+        }
        return result
     }
 }
