@@ -14,6 +14,7 @@ bot.on('callback_query', (query) => {
     }
     let result=users[user_id].think(query.data)
     bot.sendMessage(chatId,result.msg,result.opts)
+
 })
 
 bot.on('message', (msg) => {
