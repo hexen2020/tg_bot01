@@ -252,7 +252,7 @@ class BotManager {
             {
                 if (item.logic)
                 {
-                    result=item.logic.think(message)
+                  result=item.logic.think(message)
                 }else
                 {
                     result=item.result
@@ -260,6 +260,7 @@ class BotManager {
                 
             }
         })
+        console.log(result)
        return result
     }
 }
