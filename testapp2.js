@@ -7,7 +7,7 @@ const bot = new TelegramBot(token, { polling: true })
 let users={}
 bot.on('callback_query', (query) => {
     const chatId = query.message.chat.id
-    const user_id=query.message.from.id
+    const user_id=query.message.chat.id
     if (!users[user_id])
     {
     users[user_id]=new botManager()
@@ -19,7 +19,7 @@ bot.on('callback_query', (query) => {
 
 bot.on('message', (msg) => {
 const chatId = msg.chat.id
-const user_id=msg.from.id
+const user_id=msg.chat.id
 
 if (!users[user_id])
 {

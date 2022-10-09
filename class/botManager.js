@@ -102,8 +102,6 @@ class BotManager {
       {
         message:"k41",
         logic: this.anketa
-        
-        
     },
 
     {
@@ -113,7 +111,6 @@ class BotManager {
             opts:{}
         }
     },
-
 
 
 
@@ -260,7 +257,6 @@ class BotManager {
                 
             }
         })
-        console.log(result)
        return result
     }
 }

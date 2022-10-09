@@ -8,17 +8,65 @@ class BotAnketa {
         this.complete=false
         this.base=[
             {
-                question:"❗Введите свой возраст \n \n -------------------- \n Вам должно быть больше 18 лет!",
+                question:"#ВОПРОС (1/5) \n ❗Введите свой возраст \n \n -------------------- \n Вам должно быть больше 18 лет!",
+                anketaopts:{},
                 type:"age",
-                error:"Вы малолетка"
+                error:"Вам должно быть больше 18 лет!"
             },
             {
-                question:"❗Введите город своего проживания",
+                question:"#ВОПРОС (2/5) \n ❗Введите город своего проживания",
+                anketaopts:{},
                 type:"string",
-                error:"Это не город"
+                error:"Город введен некорректно"
             },
             {
-                question:"Анкета заполнена",
+              question:"#ВОПРОС (3/5) \n ❗Введите количество активных займов и кредитов",
+              anketaopts:{
+                reply_markup: {
+                    inline_keyboard: [
+                      [
+                        {
+                          text: '0', 
+                          callback_data: 'k51' 
+                        }
+                      ],
+                      [
+                          {
+                            text: '1-5',
+                            callback_data: 'k52'
+                          }
+                      ],
+                      [
+                        {
+                          text: '6-10',
+                          callback_data: 'k53'
+                        }
+                    ],
+                    [
+                      {
+                        text: '10 и более',
+                        callback_data: 'k54'
+                      }
+                  ],
+                     ]}
+            },
+            type:"amount",
+            error:"Необходимо выбрать один вариант из предложенных"
+            },
+            {
+              question:"#ВОПРОС (4/5) \n ❗Введите необходимую сумму займа в рублях",
+              anketaopts:{},
+              type:"sum",
+              error:"Сумма введена некорректно"
+          },
+          {
+            question:"#ВОПРОС (5/5) \n ❗Введите необходимый срок займа в месяцах",
+            anketaopts:{},
+            type:"term",
+            error:"Срок введен некорректно"
+        },
+            {
+                question:"Все готово! \n✅Ваш профиль заполнен \nТеперь для вас доступен подбор займа",
                 type:"null"
             }
         ]
@@ -50,7 +98,7 @@ class BotAnketa {
       }
       return {
         msg:my_step.question,
-        opts:{}
+        opts:my_step.anketaopts
       }
     }
 
@@ -66,6 +114,27 @@ class BotAnketa {
        if (type=="age") 
        {
         if (message>17)
+        {
+            return true
+        }
+       }
+       if (type=="amount") 
+       {
+        if (message=="k51" || message=="k52" || message=="k53" || message=="k54")
+        {
+            return true
+        }
+       }
+       if (type=="sum") 
+       {
+        if (message>500)
+        {
+            return true
+        }
+       }
+       if (type=="term") 
+       {
+        if (message>0)
         {
             return true
         }
