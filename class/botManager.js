@@ -43,7 +43,6 @@ class BotManager {
                 }
             }
         },
-
         {
             message:"Помощь",
             result:{
@@ -73,9 +72,6 @@ class BotManager {
                 }
             }
         },
-
-
-
         {
           message:"анкету",
           result:{
@@ -103,7 +99,6 @@ class BotManager {
         message:"k41",
         logic: this.anketa
     },
-
     {
         message:"k42",
         result:{
@@ -111,9 +106,6 @@ class BotManager {
             opts:{}
         }
     },
-
-
-
         {
             message:"k31",
             result:{
@@ -121,7 +113,6 @@ class BotManager {
                 opts:{}
             }
         },
-
         {
             message:"k32",
             result:{
@@ -129,7 +120,6 @@ class BotManager {
                 opts:{}
             }
         },
-
         {
             message:"k33",
             result:{
@@ -137,7 +127,6 @@ class BotManager {
                 opts:{}
             }
         },
-
         {
           message:"предложения",
           result:{
@@ -185,7 +174,6 @@ class BotManager {
               }
           }
       },
-
       {
           message:"k21",
           result:{
@@ -193,7 +181,6 @@ class BotManager {
               opts:{}
           }
       },
-
       {
           message:"k22",
           result:{
@@ -201,7 +188,6 @@ class BotManager {
               opts:{}
           }
       },
-
       {
           message:"k23",
           result:{
@@ -209,7 +195,6 @@ class BotManager {
               opts:{}
           }
       },
-
       {
         message:"k24",
         result:{
@@ -217,7 +202,6 @@ class BotManager {
             opts:{}
         }
     },
-
     {
       message:"k25",
       result:{
@@ -225,7 +209,6 @@ class BotManager {
           opts:{}
       }
   },
-
   {
     message:"k26",
     result:{
@@ -233,10 +216,8 @@ class BotManager {
         opts:{}
     }
 },
-
      ]
-    }
-   
+    }  
     think(message)
     {
         let result=false
@@ -260,5 +241,4 @@ class BotManager {
        return result
     }
 }
-
 module.exports = BotManager;

@@ -71,7 +71,6 @@ class BotAnketa {
             }
         ]
     }
-
     think(message)
     {
       this.begin=true
@@ -101,7 +100,6 @@ class BotAnketa {
         opts:my_step.anketaopts
       }
     }
-
     verify(message,type)
     {
        if (type=="string") 
@@ -127,7 +125,7 @@ class BotAnketa {
        }
        if (type=="sum") 
        {
-        if (message>500)
+        if (message>1)
         {
             return true
         }
@@ -141,7 +139,5 @@ class BotAnketa {
        }
        return false
     }
-
 }
-
 module.exports = BotAnketa;
