@@ -24,6 +24,31 @@ const user_id=msg.chat.id
 if (!users[user_id])
 {
     users[user_id]=new botManager()
+    bot.sendMessage(chatId,"<i>Спасибо, что выбрали именно нас!</i>",{
+        reply_markup: {
+            resize_keyboard: true,
+            one_time_keyboard: false,
+            keyboard: [
+                [
+                  {
+                    text: '🔎Подобрать займ',
+                  }, {
+                    text: '⭐Популярные предложения'
+                  }
+                ],
+                [
+                  {
+                    text: '📝Профиль'
+                  }
+                ],
+                [
+                  {
+                    text: '⁉Помощь'
+                  }
+                ]        
+              ],
+        },
+        parse_mode: 'html'})
 }
 let result=users[user_id].think(msg.text)
 bot.sendMessage(chatId,result.msg,result.opts)
