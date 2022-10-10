@@ -8,65 +8,66 @@ class BotAnketa {
         this.complete=false
         this.base=[
             {
-                question:"#ВОПРОС (1/5) \n ❗Введите свой возраст \n \n -------------------- \n Вам должно быть больше 18 лет!",
-                anketaopts:{},
+                question:"<i>Вопрос 1/4 \nВведите свой возраст (бот реагирует только на числа от 18):</i>",
+                anketaopts:{parse_mode: 'html'},
                 type:"age",
                 error:"Вам должно быть больше 18 лет!"
             },
             {
-                question:"#ВОПРОС (2/5) \n ❗Введите город своего проживания",
-                anketaopts:{},
+                question:"<i>Вопрос 2/4 \nВыберите регион Вашего проживания:</i>",
+                anketaopts:{parse_mode: 'html'},
                 type:"string",
-                error:"Город введен некорректно"
+                error:"Регион введен некорректно"
             },
             {
-              question:"#ВОПРОС (3/5) \n ❗Введите количество активных займов и кредитов",
+              question:"<i>Вопрос 3/4 \nКакая у вас кредитная история? \n\n<b>Хорошая кредитная история</b> - выберите этот вариант, если за последний месяц у вас не было просрочек по платежам, нет или мало активных кредитов(займов) и количество отказов по кредитам(займам) минимально. \n<b>Плохая кредитная история</b> - выберите этот вариант, если у вас были просрочки по займам(кредитам) за последнее время, есть несколько активных задолженностей, большое количество отказов. \n\n(Сейчас бот реагирует только на кнопки под этим сообщением)</i>",
               anketaopts:{
                 reply_markup: {
                     inline_keyboard: [
                       [
                         {
-                          text: '0', 
+                          text: 'Положительная', 
                           callback_data: 'k51' 
                         }
                       ],
                       [
                           {
-                            text: '1-5',
+                            text: 'Отрицательная',
                             callback_data: 'k52'
                           }
                       ],
-                      [
-                        {
-                          text: '6-10',
-                          callback_data: 'k53'
-                        }
-                    ],
-                    [
-                      {
-                        text: '10 и более',
-                        callback_data: 'k54'
-                      }
-                  ],
-                     ]}
+                     ]},
+                     parse_mode: 'html'
             },
-            type:"amount",
+            type:"history",
             error:"Необходимо выбрать один вариант из предложенных"
             },
             {
-              question:"#ВОПРОС (4/5) \n ❗Введите необходимую сумму займа в рублях",
-              anketaopts:{},
-              type:"sum",
-              error:"Сумма введена некорректно"
+              question:"<i>Вопрос 4/4 \n Количество активных займов более 5?</i>",
+              anketaopts:{
+                reply_markup: {
+                  inline_keyboard: [
+                    [
+                      {
+                        text: 'ДА', 
+                        callback_data: 'k61' 
+                      }
+                    ],
+                    [
+                        {
+                          text: 'НЕТ',
+                          callback_data: 'k62'
+                        }
+                    ],
+                   ]},
+                   parse_mode: 'html'
+              },
+              type:"amount",
+              error:"Необходимо выбрать один вариант из предложенных"
           },
-          {
-            question:"#ВОПРОС (5/5) \n ❗Введите необходимый срок займа в месяцах",
-            anketaopts:{},
-            type:"term",
-            error:"Срок введен некорректно"
-        },
             {
-                question:"Все готово! \n✅Ваш профиль заполнен \nТеперь для вас доступен подбор займа",
+                question:"<i>Спасибо, Ваши данные успешно сохранены.</i>",
+                anketaopts:{parse_mode: 'html'},
                 type:"null"
             }
         ]
@@ -116,23 +117,16 @@ class BotAnketa {
             return true
         }
        }
+       if (type=="history") 
+       {
+        if (message=="k51" || message=="k52")
+        {
+            return true
+        }
+       }
        if (type=="amount") 
        {
-        if (message=="k51" || message=="k52" || message=="k53" || message=="k54")
-        {
-            return true
-        }
-       }
-       if (type=="sum") 
-       {
-        if (message>1)
-        {
-            return true
-        }
-       }
-       if (type=="term") 
-       {
-        if (message>0)
+        if (message=="k61" || message=="k62")
         {
             return true
         }
