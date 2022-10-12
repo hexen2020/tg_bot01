@@ -3,14 +3,28 @@ class BotProfile {
     constructor(anketa)
     {
     this.anketa=anketa
+
+
     }
 
+
+
+    
     think()
     {
+        
+        let message=""
+        for (let key in this.anketa.users_data) {
+            if (key.length>0)
+            {message+=key+" "+this.anketa.users_data[key]+"\n"}
+          }
+
+
+        console.log(this.anketa.users_data)
         if (this.anketa.complete)
         {
             return {
-                msg:"<b>Ваш профиль</b> \n<i>Возраст: \nРегион: \nКредитная история: \nКоличество активных займов:</i>",
+                msg:message,
                 opts:{
                     reply_markup: {
                         inline_keyboard: [

@@ -43,7 +43,7 @@ class BotAnketa {
                 opts:{}
               }
         }
-        this.users_data[last_step.question]=message
+        this.users_data[last_step.question_small]=message
 
 
         this.connection.query("INSERT INTO clients_data (client_id,question_id,answer) VALUE ('"+this.client_id+"','"+last_step.id+"','"+message+"') ON DUPLICATE KEY UPDATE answer='"+message+"'", function(err, data) {
@@ -69,8 +69,8 @@ class BotAnketa {
     {
        if (type=="string") 
        {
-        if (message.length>2)
-        {
+        if (message=="k101" || message=="k102" || message=="k103" || message=="k104" || message=="k105" || message=="k106" || message=="k107" || message=="k108")
+        { 
             return true
         }
        }

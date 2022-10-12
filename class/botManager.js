@@ -18,13 +18,12 @@ class BotManager {
     connection.query("SELECT * FROM clients WHERE chatid="+user_id, function(err, results) {
       if (results.length>0)
       {
-        connection.query("SELECT * FROM clients_data WHERE client_id="+results[0]['id'], function(err, anketa) {
+        connection.query("SELECT question_id,question,answer,question_small FROM clients_data LEFT JOIN questions ON questions.id=clients_data.question_id WHERE client_id=(SELECT id FROM clients WHERE chatid='"+user_id+"')", function(err, anketa) {
           let users_data={}
           anketa.forEach((item)=>{
-            users_data[item.label]=item.value
+            users_data[item.question_small]=item.answer
           })
           _this.anketa.init(users_data,results[0]['id'])
-          
         })
 
         connection.query("SELECT * FROM selection_data WHERE client_id="+results[0]['id'], function(err, anketa1) {
