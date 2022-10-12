@@ -28,7 +28,7 @@ class BotZaim {
     }
 
 
-    init1(users_data1,client_id)
+    init(users_data1,client_id)
     {
       this.client_id=client_id
       this.users_data1=users_data1

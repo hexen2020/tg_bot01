@@ -32,7 +32,7 @@ class BotManager {
           anketa1.forEach((item)=>{
             users_data1[item.label]=item.value
           })
-          _this.anketa.init(users_data1,results[0]['id'])
+          _this.zaim.init(users_data1,results[0]['id'])
           
         })
 
