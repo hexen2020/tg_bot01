@@ -1,113 +1,39 @@
 class BotZaim {
   
-    constructor(anketa)
+    constructor(anketa,connection)
     {
         this.anketa=anketa
         this.selectstep=0
         this.users_data={}
         this.selectbegin=false
         this.selectcomplete=false
-        this.base=[
-            {
-                question:"<b>Выберите сумму займа:</b>",
-                anketaopts:{
-                    reply_markup: {
-                        inline_keyboard: [
-                          [
-                            {
-                              text: 'До 10 000 руб', 
-                              callback_data: 'k71' 
-                            }
-                          ],
-                          [
-                              {
-                                text: 'От 10 000 до 20 000 руб',
-                                callback_data: 'k72'
-                              }
-                          ],
-                          [
-                            {
-                              text: 'От 20 000 до 30 000 руб',
-                              callback_data: 'k73'
-                            }
-                        ],
-                        [
-                            {
-                              text: 'Более 30 000 руб',
-                              callback_data: 'k74'
-                            }
-                        ],
-                         ]},
-                         parse_mode: 'html'
-                },
-                type:"sum",
-                error:"Необходимо выбрать один вариант из предложенных"
-            },
-            {
-                question:"<b>Выберите срок займа:</b>",
-                anketaopts:{
-                    reply_markup: {
-                        inline_keyboard: [
-                          [
-                            {
-                              text: 'До 10 дней', 
-                              callback_data: 'k81' 
-                            }
-                          ],
-                          [
-                              {
-                                text: 'От 10 до 20 дней',
-                                callback_data: 'k82'
-                              }
-                          ],
-                          [
-                            {
-                              text: 'От 20 до 30 дней',
-                              callback_data: 'k83'
-                            }
-                        ],
-                        [
-                            {
-                              text: 'Более 30 дней',
-                              callback_data: 'k84'
-                            }
-                        ],
-                         ]},
-                         parse_mode: 'html'
-                },
-                type:"term",
-                error:"Необходимо выбрать один вариант из предложенных"
-            },
-            {
-              question:"<b>Выберите процентную ставку по займу:</b>",
-              anketaopts:{
-                reply_markup: {
-                    inline_keyboard: [
-                      [
-                        {
-                          text: 'Займы под 0%', 
-                          callback_data: 'k91' 
-                        }
-                      ],
-                      [
-                          {
-                            text: 'Займы под обычный процент',
-                            callback_data: 'k92'
-                          }
-                      ],
-                     ]},
-                     parse_mode: 'html'
-            },
-            type:"rate",
-            error:"Необходимо выбрать один вариант из предложенных"
-            },
-            {
-                question:"<i>На данный момент мы можем предложить Вам следующие займы:</i>",
-                anketaopts:{parse_mode: 'html'},
-                type:"null"
-            }
-        ]
+
+        this.connection=connection
+        let _this=this
+
+
+
+        this.connection.query("SELECT * FROM selection", function(err, selresults) {
+          selresults.forEach((item)=>{
+            item.anketaopts=JSON.parse(item.anketaopts)
+            _this.base.push(item)
+
+
+          })
+        })
+
+
+
+        this.base=[]
     }
+
+
+    init(users_data,client_id)
+    {
+      this.client_id=client_id
+      this.users_data=users_data
+    }
+
     think(message)
     {
         if (this.anketa.complete)
@@ -123,6 +49,14 @@ class BotZaim {
               }
         }
         this.users_data[last_selectstep.question]=message
+
+
+        this.connection.query("INSERT INTO selection_data (client_id,question_id,answer) VALUE ('"+this.client_id+"','"+last_selectstep.id+"','"+message+"')", function(err, data) {
+          console.log(err)
+          console.log(data)
+        })
+
+
         console.log(this.users_data)
       }
       let my_selectstep=this.base[this.selectstep]

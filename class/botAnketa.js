@@ -1,79 +1,37 @@
 class BotAnketa {
   
-    constructor()
+    constructor(connection)
     {
         this.step=0
-        this.users_data={}
+        this.connection=connection
         this.begin=false
         this.complete=false
-        this.base=[
-            {
-                question:"<i>Вопрос 1/4 \nВведите свой возраст (бот реагирует только на числа от 18):</i>",
-                anketaopts:{parse_mode: 'html'},
-                type:"age",
-                error:"Вам должно быть больше 18 лет!"
-            },
-            {
-                question:"<i>Вопрос 2/4 \nВыберите регион Вашего проживания:</i>",
-                anketaopts:{parse_mode: 'html'},
-                type:"string",
-                error:"Регион введен некорректно"
-            },
-            {
-              question:"<i>Вопрос 3/4 \nКакая у вас кредитная история? \n\n<b>Хорошая кредитная история</b> - выберите этот вариант, если за последний месяц у вас не было просрочек по платежам, нет или мало активных кредитов (займов) и количество отказов по кредитам (займам) минимально. \n<b>Плохая кредитная история</b> - выберите этот вариант, если у вас были просрочки по займам (кредитам) за последнее время, есть несколько активных задолженностей, большое количество отказов. \n\n(Сейчас бот реагирует только на кнопки под этим сообщением)</i>",
-              anketaopts:{
-                reply_markup: {
-                    inline_keyboard: [
-                      [
-                        {
-                          text: 'Положительная', 
-                          callback_data: 'k51' 
-                        }
-                      ],
-                      [
-                          {
-                            text: 'Отрицательная',
-                            callback_data: 'k52'
-                          }
-                      ],
-                     ]},
-                     parse_mode: 'html'
-            },
-            type:"history",
-            error:"Необходимо выбрать один вариант из предложенных"
-            },
-            {
-              question:"<i>Вопрос 4/4 \n Количество активных займов более 5?</i>",
-              anketaopts:{
-                reply_markup: {
-                  inline_keyboard: [
-                    [
-                      {
-                        text: 'ДА', 
-                        callback_data: 'k61' 
-                      }
-                    ],
-                    [
-                        {
-                          text: 'НЕТ',
-                          callback_data: 'k62'
-                        }
-                    ],
-                   ]},
-                   parse_mode: 'html'
-              },
-              type:"amount",
-              error:"Необходимо выбрать один вариант из предложенных"
-          },
-            {
-                question:"<i>Спасибо, Ваши данные успешно сохранены.</i>",
-                anketaopts:{parse_mode: 'html'},
-                type:"null"
-            }
-        ]
+        let _this=this
+
+
+
+        
+        this.connection.query("SELECT * FROM questions", function(err, baseresults) {
+          baseresults.forEach((item)=>{
+            item.anketaopts=JSON.parse(item.anketaopts)
+            _this.base.push(item)
+
+
+          })
+        })
+
+
+        this.base=[]
+    }
+
+    init(users_data,client_id)
+    {
+      this.client_id=client_id
+      this.users_data=users_data
     }
     think(message)
     {
+
       this.begin=true
       if (this.step>0)
       {
@@ -86,6 +44,15 @@ class BotAnketa {
               }
         }
         this.users_data[last_step.question]=message
+
+
+
+        this.connection.query("INSERT INTO clients_data (client_id,question_id,answer) VALUE ('"+this.client_id+"','"+last_step.id+"','"+message+"')", function(err, data) {
+          console.log(err)
+          console.log(data)
+        })
+  
+
         console.log(this.users_data)
       }
       let my_step=this.base[this.step]
@@ -132,6 +99,6 @@ class BotAnketa {
         }
        }
        return false
-    }
+      }
 }
 module.exports = BotAnketa;

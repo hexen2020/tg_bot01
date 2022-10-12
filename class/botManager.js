@@ -2,13 +2,44 @@ const botAnketa = require('./botAnketa')
 const botProfile = require('./botProfile')
 const botZaim = require('./botZaim')
 
+
 class BotManager {
 
-    constructor(){
-     this.name="noname"
-     this.anketa=new botAnketa()
-     this.profile=new botProfile(this.anketa)
-     this.zaim=new botZaim(this.anketa)
+    constructor(connection,user_id){
+    this.connection=connection
+    this.user_id=user_id
+    let _this=this
+    this.anketa=new botAnketa(connection)
+    this.profile=new botProfile(this.anketa)
+    this.zaim=new botZaim(this.anketa,connection)
+
+
+
+    connection.query("SELECT * FROM clients WHERE chatid="+user_id, function(err, results) {
+      if(err) console.log(err);
+      if (results.length>0)
+      {
+        connection.query("SELECT * FROM clients_data WHERE client_id="+results[0]['id'], function(err, anketa) {
+          let users_data={}
+          anketa.forEach((item)=>{
+            users_data[item.label]=item.value
+          })
+          _this.anketa.init(users_data,results[0]['id'])
+          
+        })
+
+
+        
+      }
+      else
+      {
+        connection.query("INSERT INTO clients (chatid) VALUES ('"+user_id+"')", function(err, results) {
+
+          console.log(err)
+        })
+      }
+  });
+    
      this.base=[   
         {
           message:"займ",
@@ -142,6 +173,7 @@ class BotManager {
     }  
     think(message)
     {
+      
         let result=false
         if (this.anketa.begin)
         {
@@ -151,6 +183,7 @@ class BotManager {
         {
            return this.zaim.think(message)
         }
+        
         this.base.forEach((item)=>{
             if (message.includes(item.message))
             {
