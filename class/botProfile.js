@@ -24,7 +24,7 @@ class BotProfile {
         if (this.anketa.complete)
         {
             return {
-                msg:message,
+                msg:"<b>Ваш профиль</b>\n"+message,
                 opts:{
                     reply_markup: {
                         inline_keyboard: [

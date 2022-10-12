@@ -69,7 +69,7 @@ class BotAnketa {
     {
        if (type=="string") 
        {
-        if (message=="k101" || message=="k102" || message=="k103" || message=="k104" || message=="k105" || message=="k106" || message=="k107" || message=="k108")
+        if (message=="Центральный федеральный округ" || message=="Северо-Западный федеральный округ" || message=="Южный федеральный округ" || message=="Северо-Кавказский" || message=="Приволжский федеральный округ" || message=="Уральский федеральный округ" || message=="Сибирский федеральный округ" || message=="Дальневосточный федеральный округ")
         { 
             return true
         }
@@ -83,14 +83,14 @@ class BotAnketa {
        }
        if (type=="history") 
        {
-        if (message=="k51" || message=="k52")
+        if (message=="Положительная" || message=="Отрицательная")
         {
             return true
         }
        }
        if (type=="amount") 
        {
-        if (message=="k61" || message=="k62")
+        if (message=="Более 5" || message=="Менее 5")
         {
             return true
         }

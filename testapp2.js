@@ -105,7 +105,7 @@ let result=users[user_id].think(msg.text)
 setTimeout(()=>{
 
     bot.sendMessage(chatId,result.msg,result.opts)
-},timeout_message*1000)
+},timeout_message*300)
 
 
 })
