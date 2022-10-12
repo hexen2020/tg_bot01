@@ -16,7 +16,6 @@ class BotManager {
 
 
     connection.query("SELECT * FROM clients WHERE chatid="+user_id, function(err, results) {
-      if(err) console.log(err);
       if (results.length>0)
       {
         connection.query("SELECT * FROM clients_data WHERE client_id="+results[0]['id'], function(err, anketa) {
@@ -28,14 +27,22 @@ class BotManager {
           
         })
 
+        connection.query("SELECT * FROM selection_data WHERE client_id="+results[0]['id'], function(err, anketa1) {
+          let users_data1={}
+          anketa1.forEach((item)=>{
+            users_data1[item.label]=item.value
+          })
+          _this.anketa.init(users_data1,results[0]['id'])
+          
+        })
 
-        
+
+
       }
       else
       {
         connection.query("INSERT INTO clients (chatid) VALUES ('"+user_id+"')", function(err, results) {
 
-          console.log(err)
         })
       }
   });

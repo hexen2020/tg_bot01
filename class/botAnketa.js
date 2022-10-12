@@ -46,14 +46,11 @@ class BotAnketa {
         this.users_data[last_step.question]=message
 
 
-
-        this.connection.query("INSERT INTO clients_data (client_id,question_id,answer) VALUE ('"+this.client_id+"','"+last_step.id+"','"+message+"')", function(err, data) {
-          console.log(err)
-          console.log(data)
+        this.connection.query("INSERT INTO clients_data (client_id,question_id,answer) VALUE ('"+this.client_id+"','"+last_step.id+"','"+message+"') ON DUPLICATE KEY UPDATE answer='"+message+"'", function(err, data) {
         })
-  
 
-        console.log(this.users_data)
+
+
       }
       let my_step=this.base[this.step]
       this.step++

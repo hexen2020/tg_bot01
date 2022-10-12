@@ -28,10 +28,10 @@ class BotZaim {
     }
 
 
-    init(users_data,client_id)
+    init(users_data1,client_id)
     {
       this.client_id=client_id
-      this.users_data=users_data
+      this.users_data1=users_data1
     }
 
     think(message)
@@ -51,13 +51,11 @@ class BotZaim {
         this.users_data[last_selectstep.question]=message
 
 
-        this.connection.query("INSERT INTO selection_data (client_id,question_id,answer) VALUE ('"+this.client_id+"','"+last_selectstep.id+"','"+message+"')", function(err, data) {
-          console.log(err)
-          console.log(data)
+        this.connection.query("INSERT INTO selection_data (client_id,question_id,answer) VALUE ('"+this.client_id+"','"+last_selectstep.id+"','"+message+"')ON DUPLICATE KEY UPDATE answer='"+message+"'", function(err, data) {
         })
 
 
-        console.log(this.users_data)
+
       }
       let my_selectstep=this.base[this.selectstep]
       this.selectstep++

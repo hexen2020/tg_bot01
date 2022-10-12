@@ -1,4 +1,34 @@
   
+        connection.query("SELECT * FROM clients_data WHERE client_id='"+this.client_id+"' AND question_id='"+last_step.id+"'", function(err, results) {
+          if (results.length>0)
+          {
+    
+          }
+          else
+          {
+            this.connection.query("INSERT INTO clients_data (client_id,question_id,answer) VALUE ('"+this.client_id+"','"+last_step.id+"','"+message+"')", function(err, data) {
+            })
+          }
+      });
+
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         this.connection.query("SELECT question FROM questions WHERE id=('"+this.step+"')", function(err, baseresults) {
             console.log(baseresults)
           })
