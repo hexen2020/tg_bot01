@@ -4,7 +4,7 @@ class BotZaim {
     {
         this.anketa=anketa
         this.selectstep=0
-        this.users_data={}
+        this.users_data1={}
         this.selectbegin=false
         this.selectcomplete=false
 
@@ -28,7 +28,7 @@ class BotZaim {
     }
 
 
-    init(users_data1,client_id)
+    init1(users_data1,client_id)
     {
       this.client_id=client_id
       this.users_data1=users_data1
