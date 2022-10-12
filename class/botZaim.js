@@ -48,7 +48,7 @@ class BotZaim {
                 opts:{}
               }
         }
-        this.users_data[last_selectstep.question]=message
+        this.users_data1[last_selectstep.question]=message
 
 
         this.connection.query("INSERT INTO selection_data (client_id,question_id,answer) VALUE ('"+this.client_id+"','"+last_selectstep.id+"','"+message+"')ON DUPLICATE KEY UPDATE answer='"+message+"'", function(err, data) {
