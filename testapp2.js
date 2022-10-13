@@ -3,6 +3,9 @@ const botManager = require('./class/botManager')
 const mysql = require("mysql2")
 
 
+
+
+
 const fs=require("fs")
 const connection = mysql.createConnection({
     host: "rc1b-oo0r1cutb0wqf6qq.mdb.yandexcloud.net",
@@ -15,7 +18,15 @@ const connection = mysql.createConnection({
 });
 
 
-const token = '5776133707:AAGmOcGr_D4tfIwfssqL8V1b68eXIgfDQuE'
+
+
+const botRequests = require('./class/botRequests')
+const requests=new botRequests(connection)
+
+
+
+
+const token = '5400109352:AAF6wtuT_CwF9U5mgcqirCZL9YNwczRjjEc'
 
 
 
