@@ -56,35 +56,45 @@ class BotAnketa {
     }
     verify(message,type)
     {
-       if (type=="string") 
+      let verify=false
+
+
+       if (type=="region") 
        {
-        if (message=="Центральный федеральный округ" || message=="Северо-Западный федеральный округ" || message=="Южный федеральный округ" || message=="Северо-Кавказский" || message=="Приволжский федеральный округ" || message=="Уральский федеральный округ" || message=="Сибирский федеральный округ" || message=="Дальневосточный федеральный округ")
+        global.requests.baseregions.forEach((item)=>{
+         
+   
+        if (message.toLowerCase().indexOf(item.name.toLowerCase())>-1)
         { 
-            return true
+          verify=true
         }
+        })
        }
+
+
+
        if (type=="age") 
        {
         if (message>17)
         {
-            return true
+          verify=true
         }
        }
        if (type=="history") 
        {
         if (message=="Положительная" || message=="Отрицательная")
         {
-            return true
+          verify=true
         }
        }
        if (type=="amount") 
        {
         if (message=="Более 5" || message=="Менее 5")
         {
-            return true
+          verify=true
         }
        }
-       return false
+       return verify
       }
 }
 module.exports = BotAnketa;
