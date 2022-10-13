@@ -91,21 +91,21 @@ class BotZaim {
     {
        if (type=="sum") 
        {
-        if (message=="k71" || message=="k72"|| message=="k73"|| message=="k74")
+        if (message=="До 10 тр" || message=="10-20 тр"|| message=="20-30 тр"|| message=="Больше 30 тр")
         {
             return true
         }
        }
        if (type=="term") 
        {
-        if (message=="k81" || message=="k82"|| message=="k83"|| message=="k84")
+        if (message=="До 10 дн" || message=="10-20 дн"|| message=="20-30 дн"|| message=="Больше 30 дн")
         {
             return true
         }
        }
        if (type=="rate") 
        {
-        if (message=="k91" || message=="k92")
+        if (message=="Под 0" || message=="Под обычный процент")
         {
             return true
         }
