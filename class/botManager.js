@@ -14,35 +14,40 @@ class BotManager {
     this.zaim=new botZaim(this.anketa,connection)
 
 
+    function connectbase(user_id) {
+      _this.connection.query("SELECT question_id,question,answer,question_small FROM clients_data LEFT JOIN questions ON questions.id=clients_data.question_id WHERE client_id=(SELECT id FROM clients WHERE chatid='"+user_id+"')", function(err, anketa) {
+        let users_data={}
+        anketa.forEach((item)=>{
+          users_data[item.question_small]=item.answer
+        })
+        _this.anketa.init(users_data,user_id)
+      })
+
+      _this.connection.query("SELECT * FROM selection_data WHERE client_id="+user_id, function(err, anketa1) {
+        let users_data1={}
+        anketa1.forEach((item)=>{
+          users_data1[item.label]=item.value
+        })
+        _this.zaim.init(users_data1,user_id)
+        
+      })
+    }
+
+
 
     connection.query("SELECT * FROM clients WHERE chatid="+user_id, function(err, results) {
       if (results.length>0)
       {
-        connection.query("SELECT question_id,question,answer,question_small FROM clients_data LEFT JOIN questions ON questions.id=clients_data.question_id WHERE client_id=(SELECT id FROM clients WHERE chatid='"+user_id+"')", function(err, anketa) {
-          let users_data={}
-          anketa.forEach((item)=>{
-            users_data[item.question_small]=item.answer
-          })
-          _this.anketa.init(users_data,results[0]['id'])
-        })
-
-        connection.query("SELECT * FROM selection_data WHERE client_id="+results[0]['id'], function(err, anketa1) {
-          let users_data1={}
-          anketa1.forEach((item)=>{
-            users_data1[item.label]=item.value
-          })
-          _this.zaim.init(users_data1,results[0]['id'])
-          
-        })
-
-
-
+        connectbase(results[0]['id'])
       }
       else
       {
         connection.query("INSERT INTO clients (chatid) VALUES ('"+user_id+"')", function(err, results) {
-
+          
         })
+        connection.query("SELECT * FROM clients WHERE chatid="+user_id, function(err, results) {
+          connectbase(results[0]['id'])
+      });
       }
   });
     
