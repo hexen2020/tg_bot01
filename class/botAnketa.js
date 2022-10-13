@@ -25,13 +25,15 @@ class BotAnketa {
       if (this.step>0)
       {
         let last_step=this.base[this.step-1]
-        if (!this.verify(message,last_step.type))
+        let verify_result=this.verify(message,last_step.type)
+        if (!verify_result)
         {
             return {
                 msg:last_step.error,
                 opts:{}
               }
         }
+        if (last_step.type=="region") {message=verify_result}
         this.users_data[last_step.question_small]=message
 
 
@@ -64,9 +66,11 @@ class BotAnketa {
         global.requests.baseregions.forEach((item)=>{
          
    
-        if (message.toLowerCase().indexOf(item.name.toLowerCase())>-1)
+        if (message.toLowerCase().indexOf(item.name.toLowerCase())>-1 || item.name.toLowerCase().indexOf(message.toLowerCase())>-1)
         { 
-          verify=true
+
+          verify=item.name
+
         }
         })
        }

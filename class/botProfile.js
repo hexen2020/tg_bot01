@@ -20,7 +20,6 @@ class BotProfile {
           }
 
 
-        console.log(this.anketa.users_data)
         if (this.anketa.complete)
         {
             return {
