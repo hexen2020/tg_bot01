@@ -3,6 +3,7 @@ const botProfile = require('./botProfile')
 const botZaim = require('./botZaim')
 
 
+
 class BotManager {
 
     constructor(connection,user_id){
@@ -12,6 +13,7 @@ class BotManager {
     this.anketa=new botAnketa(connection)
     this.profile=new botProfile(this.anketa)
     this.zaim=new botZaim(this.anketa,connection)
+
 
 
     function connectbase(user_id) {
@@ -50,7 +52,6 @@ class BotManager {
       });
       }
   });
-    
      this.base=[   
         {
           message:"займ",

@@ -1,0 +1,46 @@
+class BotRequests {
+  
+    constructor(connection)
+    {
+        this.connection=connection
+        let _this=this
+        this.base1=[]
+        this.base2=[]
+        this.baseregions=[]
+
+        this.connection.query("SELECT * FROM questions", function(err, baseresults) {
+            baseresults.forEach((item)=>{
+              item.anketaopts=JSON.parse(item.anketaopts)
+              _this.base1.push(item)
+              
+  
+            })
+          })
+   
+        this.connection.query("SELECT * FROM selection", function(err, selresults) {
+            selresults.forEach((item)=>{
+              item.anketaopts=JSON.parse(item.anketaopts)
+              _this.base2.push(item)
+
+  
+            })
+          })
+  
+
+          this.connection.query("SELECT * FROM regions", function(err, baseregions) {
+            baseregions.forEach((item)=>{
+              _this.baseregions.push(item)
+              
+  
+            })
+          })
+  
+    }
+
+    1()
+    {
+      
+    }
+
+}
+module.exports = BotRequests;

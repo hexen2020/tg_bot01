@@ -1,6 +1,6 @@
 class BotZaim {
   
-    constructor(anketa,connection)
+    constructor(anketa,connection,requests)
     {
         this.anketa=anketa
         this.selectstep=0
@@ -11,20 +11,8 @@ class BotZaim {
         this.connection=connection
         let _this=this
 
-
-
-        this.connection.query("SELECT * FROM selection", function(err, selresults) {
-          selresults.forEach((item)=>{
-            item.anketaopts=JSON.parse(item.anketaopts)
-            _this.base.push(item)
-
-
-          })
-        })
-
-
-
-        this.base=[]
+        this.requests=requests
+        this.base=this.requests.base2
     }
 
 

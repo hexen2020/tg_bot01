@@ -1,6 +1,7 @@
+
 class BotAnketa {
   
-    constructor(connection)
+    constructor(connection,requests)
     {
         this.step=0
         this.connection=connection
@@ -8,20 +9,8 @@ class BotAnketa {
         this.complete=false
         let _this=this
 
-
-
-        
-        this.connection.query("SELECT * FROM questions", function(err, baseresults) {
-          baseresults.forEach((item)=>{
-            item.anketaopts=JSON.parse(item.anketaopts)
-            _this.base.push(item)
-
-
-          })
-        })
-
-
-        this.base=[]
+        this.requests=requests
+        this.base=this.requests.base1
     }
 
     init(users_data,client_id)
