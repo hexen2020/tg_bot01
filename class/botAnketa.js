@@ -1,7 +1,7 @@
 
 class BotAnketa {
   
-    constructor(connection,requests)
+    constructor(connection)
     {
         this.step=0
         this.connection=connection
@@ -9,8 +9,8 @@ class BotAnketa {
         this.complete=false
         let _this=this
 
-        this.requests=requests
-        this.base=this.requests.base1
+
+        this.base=global.requests.base1
     }
 
     init(users_data,client_id)

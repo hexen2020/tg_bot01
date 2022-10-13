@@ -21,10 +21,9 @@ const connection = mysql.createConnection({
 
 
 const botRequests = require('./class/botRequests')
-const requests=new botRequests(connection)
+global.requests=new botRequests(connection)
 
-
-
+ 
 
 const token = '5400109352:AAF6wtuT_CwF9U5mgcqirCZL9YNwczRjjEc'
 

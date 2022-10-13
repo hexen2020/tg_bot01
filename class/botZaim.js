@@ -1,6 +1,6 @@
 class BotZaim {
   
-    constructor(anketa,connection,requests)
+    constructor(anketa,connection)
     {
         this.anketa=anketa
         this.selectstep=0
@@ -11,8 +11,8 @@ class BotZaim {
         this.connection=connection
         let _this=this
 
-        this.requests=requests
-        this.base=this.requests.base2
+    
+        this.base=global.requests.base2
     }
 
 
