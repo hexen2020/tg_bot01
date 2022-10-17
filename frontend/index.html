@@ -1,0 +1,80 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="webix/codebase/webix.js?v=7.4.0"></script>
+    <script type="text/javascript" src="pages/questions.js"></script>
+    <script type="text/javascript" src="pages/selections.js"></script>
+    <script type="text/javascript" src="pages/offers.js"></script>
+    <script type="text/javascript" src="pages/clients.js"></script>
+    <link rel="stylesheet" type="text/css" href="webix/codebase/webix.css?v=7.4.0">
+</head>
+<body>
+    <script type="text/javascript" charset="utf-8">
+
+function render_page(page="questions")
+{
+let body={}
+if (page=="questions")
+{
+    body=question_page()
+}
+
+if (page=="selections")
+{
+    body=selections_page()
+}
+
+if (page=="offers")
+{
+    body=offers_page()
+}
+
+if (page=="clients")
+{
+    body=clients_page()
+}
+
+if ($$("my_body")){
+$$("render_body").removeView("my_body")
+}
+$$("render_body").addView(body)
+
+}
+
+
+
+        webix.ui({
+        type:"space",
+        rows:[  
+        {
+  view:"menu",
+  autowidth:true,
+  data:[
+            {id: "questions", value:"Анкета для профиля"},
+            {id: "selections", value:"Анкета для подбора займа"},
+            {id: "offers", value:"Офферы"},
+            {id: "clients", value:"Профили клиентов"}
+        ], 
+        on:{
+    onMenuItemClick:function(id){
+        render_page(id);   
+    }
+},
+        type:{
+            subsign:true
+        }
+        }, 
+        {
+            id:"render_body",
+			rows:[
+             
+		    ]
+        } 
+        ]
+        });	
+        
+        render_page()
+    </script>
+
+</body>
+</html>

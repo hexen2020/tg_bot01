@@ -14,5 +14,5 @@ spec:
     spec:
       containers:
         - name: tgbot
-          image: cr.yandex/crpsdtfa3vma0tp41r1e/tgbot:1.0.8
+          image: cr.yandex/crpsdtfa3vma0tp41r1e/tgbot:1.0.10
           imagePullPolicy: Always
