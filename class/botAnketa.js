@@ -51,11 +51,28 @@ class BotAnketa {
         this.complete=true
         this.step=0
       }
-      return {
+ 
+ 
+      if(my_step.anketaopts.length>0)
+      {return {
         msg:my_step.question,
-        opts:my_step.anketaopts
+        opts:{
+          "reply_markup": {
+            "inline_keyboard":  my_step.anketaopts.map((n) => [n])
+          },
+          "parse_mode": "html"
+        }
       }
     }
+    else {
+      return {
+        msg:my_step.question,
+        opts:{"parse_mode": "html"}
+      }
+
+    }
+  }
+
     verify(message,type)
     {
       let verify=false
@@ -93,7 +110,7 @@ class BotAnketa {
        }
        if (type=="amount") 
        {
-        if (message=="Более 5" || message=="Менее 5")
+        if (message=="Да" || message=="Нет")
         {
           verify=true
         }

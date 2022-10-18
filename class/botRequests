@@ -10,7 +10,9 @@ class BotRequests {
 
         this.connection.query("SELECT * FROM questions", function(err, baseresults) {
             baseresults.forEach((item)=>{
-              item.anketaopts=JSON.parse(item.anketaopts)
+              if (item.anketaopts.length>0)
+              {item.anketaopts=JSON.parse(item.anketaopts)}
+              else {item.anketoopts=[]}
               _this.base1.push(item)
               
   
@@ -19,9 +21,10 @@ class BotRequests {
    
         this.connection.query("SELECT * FROM selection", function(err, selresults) {
             selresults.forEach((item)=>{
-              item.anketaopts=JSON.parse(item.anketaopts)
+              if (item.anketaopts.length>0)
+              {item.anketaopts=JSON.parse(item.anketaopts)}
+              else {item.anketoopts=[]}
               _this.base2.push(item)
-
   
             })
           })

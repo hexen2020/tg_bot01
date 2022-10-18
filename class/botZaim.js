@@ -53,10 +53,25 @@ class BotZaim {
         this.selectcomplete=true
         this.selectstep=0
       }
+      if(my_selectstep.anketaopts.length>0)
+      {return {
+        msg:my_selectstep.question,
+        opts:{
+          "reply_markup": {
+            "inline_keyboard":  my_selectstep.anketaopts.map((n) => [n])
+          },
+          "parse_mode": "html"
+        }
+      }
+    }
+    else {
       return {
         msg:my_selectstep.question,
-        opts:my_selectstep.anketaopts
-      }}
+        opts:{"parse_mode": "html"}
+      }
+
+    }
+    }
       else {
         return {
             msg:"<i>Для получения полного списка предложений и наилучшей выдачи результатов, необходимо заполнить профиль, нажав кнопку - <b>Заполнить профиль.</b> \nВНИМАНИЕ! У Вас еще не заполнен профиль — Вам доступны не все предложения.</i>",
@@ -79,14 +94,14 @@ class BotZaim {
     {
        if (type=="sum") 
        {
-        if (message=="До 10 тр" || message=="10-20 тр"|| message=="20-30 тр"|| message=="Больше 30 тр")
+        if (message=="До 10 000 руб" || message=="От 10 000 до 20 000 руб"|| message=="От 20 000 до 30 000 руб"|| message=="Более 30 000 руб")
         {
             return true
         }
        }
        if (type=="term") 
        {
-        if (message=="До 10 дн" || message=="10-20 дн"|| message=="20-30 дн"|| message=="Больше 30 дн")
+        if (message=="До 10 дней" || message=="От 10 до 20 дней"|| message=="От 20 до 30 дней"|| message=="Более 30 дней")
         {
             return true
         }

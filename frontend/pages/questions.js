@@ -14,7 +14,41 @@ function question_page()
         id:"newanswer",
         elements:[
             { view:"text", label:"Вопрос анкеты", name:"question", labelPosition:"top"},
-            { view:"text", label:"anketaopts", name:"anketaopts", labelPosition:"top"},
+            { view:"dataview",id:"dataview", height:300,width:600, xCount:4, yCount:4, template:"#text#,<span class='trash'><b> Удалить</b></span>", data:[],
+            label:"anketaopts", name:"anketaopts", labelPosition:"top",
+            onClick:{"trash":function(e,id,node){            
+                $$("dataview").remove(id);
+            },
+          },
+        },    
+            {
+                view:"button", id:"plus", value:"Button",
+                    click:function(id,event){
+
+                        webix.prompt({
+                            title: "Введите вариант ответа",
+                            text: "Какой ответ вы хотите добавить?",
+                            ok: "Добавить",
+                            cancel: "Отмена",
+                            input: {
+                              required:true,
+                              placeholder:"Введите вариант ответа...",
+                            },
+                            width:350,
+                          }).then(function(result){
+                            $$("dataview").add({
+                                text:result,
+                                callback_data:result
+                            });
+                          }).fail(function(){
+                            webix.alert({
+                              type: "alert-error",
+                              text: "Отменено"
+                            });
+                          });
+                },
+                type:"icon", icon:"wxi-plus",label:"Добавить вариант ответа", fillspace:true
+            },
             { view:"select", label:"Тип ответа пользователя", options:[
             {"value":"age" },
             {"value":"region" },
@@ -27,8 +61,9 @@ function question_page()
                 {
                      view:"button", value:"Подтвердить" , css:"webix_primary",  click:function(id,event){
 
-
+                        
                             var formvalues = $$("newanswer").getValues();
+                            formvalues.anketaopts=$$("dataview").serialize()
                             if (item) {
                                 formvalues.id=item.id
                             }
@@ -49,8 +84,10 @@ function question_page()
             .show();     
             if (item) {
 
-                var setvalues = $$("newanswer").setValues(item);
-
+                $$("newanswer").setValues(item);
+                $$("dataview").parse(
+                    item.anketaopts
+                );
             }
     }
 
@@ -90,7 +127,6 @@ function question_page()
         columns:[
             { id:"id",   header:"Номер вопроса",   fillspace:true},
             { id:"question",   header:"Вопрос анкеты",   fillspace:true},
-            { id:"anketaopts",    header:"anketaopts", fillspace:true},
             { id:"type",   header:"Тип ответа пользователя",   fillspace:true},
             { id:"error",    header:"Ответ бота при ошибке", fillspace:true},
             { id:"question_small",   header:"Краткий вопрос для профиля",fillspace:true},

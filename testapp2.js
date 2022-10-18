@@ -49,11 +49,13 @@ bot.on('callback_query', (query) => {
 bot.on('message', (msg) => {
 const chatId = msg.chat.id
 const user_id=msg.chat.id
+const first_name=msg.chat.first_name
+const last_name=msg.chat.last_name
 let timeout_message=0
 
 if (!users[user_id])
 {
-    users[user_id]=new botManager(connection,user_id)
+    users[user_id]=new botManager(connection,user_id,first_name,last_name)
     bot.sendMessage(chatId,"<i>Спасибо, что выбрали именно нас!</i>",{
         reply_markup: {
             resize_keyboard: true,

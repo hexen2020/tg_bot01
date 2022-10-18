@@ -6,9 +6,11 @@ const botZaim = require('./botZaim')
 
 class BotManager {
 
-    constructor(connection,user_id){
+    constructor(connection,user_id,first_name,last_name){
     this.connection=connection
     this.user_id=user_id
+    this.first_name=first_name
+    this.last_name=last_name
     let _this=this
     this.anketa=new botAnketa(connection)
     this.profile=new botProfile(this.anketa)
@@ -44,7 +46,7 @@ class BotManager {
       }
       else
       {
-        connection.query("INSERT INTO clients (chatid) VALUES ('"+user_id+"')", function(err, results) {
+        connection.query("INSERT INTO clients (chatid,name,lastname) VALUES ('"+user_id+"','"+first_name+"','"+last_name+"')", function(err, results) {
           
         })
         connection.query("SELECT * FROM clients WHERE chatid="+user_id, function(err, results) {

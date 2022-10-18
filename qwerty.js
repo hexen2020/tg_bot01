@@ -24,7 +24,9 @@ app.get('/hello', (req, res) => {
     base1=[]
     connection.query("SELECT * FROM questions", function(err, baseresults) {
         baseresults.forEach((item)=>{
-          item.anketaopts=JSON.parse(item.anketaopts)
+          if (item.anketaopts.length>0)
+          {item.anketaopts=JSON.parse(item.anketaopts)}
+          else {item.anketoopts=[]}
           base1.push(item)
         })
         res.json(base1);
@@ -36,7 +38,9 @@ app.get('/hello2', (req, res) => {
   base2=[]
   connection.query("SELECT * FROM selection", function(err, baseresults) {
       baseresults.forEach((item)=>{
-        item.anketaopts=JSON.parse(item.anketaopts)
+        if (item.anketaopts.length>0)
+        {item.anketaopts=JSON.parse(item.anketaopts)}
+        else {item.anketoopts=[]}
         base2.push(item)
       })
       res.json(base2);
@@ -65,7 +69,8 @@ app.get('/hello4', (req, res) => {
 });
 
 
-let bodyParser = require('body-parser')
+let bodyParser = require('body-parser');
+const e = require('express');
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
