@@ -55,6 +55,7 @@ function selections_page()
             {"value":"rate" },
             {"value":"null" }], name:"type", labelPosition:"top"},
             { view:"text", label:"Ответ бота при ошибке", name:"error", labelPosition:"top"},
+            { view:"text", label:"Краткий вопрос для подбора", name:"question_small", labelPosition:"top"},
             { margin:5, cols:[
                 {
                      view:"button", value:"Подтвердить" , css:"webix_primary",  click:function(id,event){
@@ -128,6 +129,7 @@ function selections_page()
                 { id:"question",   header:"Вопрос анкеты",   fillspace:true},
                 { id:"type",   header:"Тип ответа пользователя",   fillspace:true},
                 { id:"error",    header:"Ответ бота при ошибке", fillspace:true},
+                { id:"question_small",   header:"Краткий вопрос для профиля",fillspace:true},
                 {id:"delete", 
                 header:"&nbsp;", 
                 width:99, 

@@ -6,6 +6,7 @@ class BotRequests {
         let _this=this
         this.base1=[]
         this.base2=[]
+        this.base3=[]
         this.baseregions=[]
 
         this.connection.query("SELECT * FROM questions", function(err, baseresults) {
@@ -25,6 +26,16 @@ class BotRequests {
               {item.anketaopts=JSON.parse(item.anketaopts)}
               else {item.anketoopts=[]}
               _this.base2.push(item)
+  
+            })
+          })
+
+          this.connection.query("SELECT * FROM offers", function(err, offresults) {
+            offresults.forEach((item)=>{
+              if (item.jsonopts.length>0)
+              {item.jsonopts=JSON.parse(item.jsonopts)}
+              else {item.jsonopts=[]}
+              _this.base3.push(item)
   
             })
           })

@@ -51,7 +51,9 @@ app.get('/hello3', (req, res) => {
   base3=[]
   connection.query("SELECT * FROM offers", function(err, baseresults) {
       baseresults.forEach((item)=>{
-        item.jsonopts=JSON.parse(item.jsonopts)
+        if (item.jsonopts.length>0)
+        {item.jsonopts=JSON.parse(item.jsonopts)}
+        else {item.jsonopts=[]}
         base3.push(item)
       })
       res.json(base3);
@@ -94,12 +96,12 @@ connection.query("INSERT INTO questions(question,anketaopts,TYPE,ERROR,question_
 
   app.post('/formvalues2', (req, res) => {
     if (req.body.id){
-      connection.query("UPDATE selection SET question = '"+req.body.question+"',anketaopts = '"+req.body.anketaopts+"',TYPE = '"+req.body.type+"',ERROR = '"+req.body.error+"' WHERE id='"+req.body.id+"'", function(err, data) {
+      connection.query("UPDATE selection SET question = '"+req.body.question+"',anketaopts = '"+req.body.anketaopts+"',TYPE = '"+req.body.type+"',ERROR = '"+req.body.error+"',question_small = '"+req.body.question_small+"' WHERE id='"+req.body.id+"'", function(err, data) {
         res.send("ok")
     })
     }
     else {
-  connection.query("INSERT INTO selection(question,anketaopts,TYPE,ERROR) VALUE ('"+req.body.question+"','"+req.body.anketaopts+"','"+req.body.type+"','"+req.body.error+"')", function(err, data) {
+  connection.query("INSERT INTO selection(question,anketaopts,TYPE,ERROR,question_small) VALUE ('"+req.body.question+"','"+req.body.anketaopts+"','"+req.body.type+"','"+req.body.error+"','"+req.body.question_small+"')", function(err, data) {
       res.send("ok")
   })
   }

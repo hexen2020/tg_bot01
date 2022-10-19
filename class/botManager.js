@@ -1,6 +1,7 @@
 const botAnketa = require('./botAnketa')
 const botProfile = require('./botProfile')
 const botZaim = require('./botZaim')
+const botOffer = require('./botOffer')
 
 
 
@@ -15,6 +16,7 @@ class BotManager {
     this.anketa=new botAnketa(connection)
     this.profile=new botProfile(this.anketa)
     this.zaim=new botZaim(this.anketa,connection)
+    this.offer=new botOffer(this.anketa,connection)
 
 
 
@@ -196,6 +198,10 @@ class BotManager {
         if (this.zaim.selectbegin)
         {
            return this.zaim.think(message)
+        }
+        if (this.offer.offerbegin)
+        {
+           return this.offer.think(message)
         }
         
         this.base.forEach((item)=>{

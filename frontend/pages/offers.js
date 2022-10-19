@@ -5,7 +5,7 @@ function offers_page()
         webix.ui({
             view:"window", move:true,
             id:"window",
-            position:"center", head:"Изменение вопроса",
+            position:"center", head:"Добавить оффер",
             modal:true,  
             close:true,
             width:800, 
@@ -16,13 +16,88 @@ function offers_page()
             { view:"text", label:"Название", name:"name", labelPosition:"top"},
             { view:"text", label:"Описание", name:"description", labelPosition:"top"},
             { view:"text", label:"Ссылка", name:"link", labelPosition:"top"},
-            { view:"text", label:"jsonopts", name:"jsonopts", labelPosition:"top"},
+            { view:"dataview",id:"dataview", height:300,width:600, xCount:4, yCount:4, template:"#term1#,#term2#,#term3#,<span class='trash'><b> Удалить</b></span>", data:[],
+            label:"jsonopts", name:"jsonopts", labelPosition:"top",
+            onClick:{"trash":function(e,id,node){            
+                $$("dataview").remove(id);
+            },
+          },
+        },    
+            {
+                view:"button", id:"plus", value:"Button",
+                    click:function(id,event){
+                        webix.ui({
+                            view:"window",
+                            id:"window_terms",
+                            head:"Условия",
+                            position:"center",
+                            close:true,
+                            width: 600,
+                            height: 600,
+                            body:{
+                                view:"form", 
+                                id:"terms",
+                                elements:[ 
+                                { view:"text", label:"Вопрос", name:"term1", labelPosition:"top"},
+                                { view:"select", label:"Тип ответа", name:"type", labelPosition:"top",options:[
+                                    {"value":"Не выбран" },
+                                    {"value":"Число" },
+                                    {"value":"Геолокация" },
+                                    {"value":"Строка" },
+                                ],
+                                on:{
+                                    onChange: function(newValue, oldValue, config){
+                                        if (newValue=="Не выбран") {
+                                            $$("min").hide()
+                                            $$("max").hide()
+                                            $$("line").hide()
+                                        }
+                                        if (newValue=="Число") {
+                                            $$("min").show()
+                                            $$("max").show()
+                                            $$("line").hide()
+                                        }
+                                        if (newValue=="Геолокация") {
+                                            $$("min").hide()
+                                            $$("max").hide()
+                                            $$("line").hide()
+                                        }
+                                        if (newValue=="Строка") {
+                                            $$("min").hide()
+                                            $$("max").hide()
+                                            $$("line").show()
+                                        }
+                                    }
+                                  }
+                            },
+                                { view:"text",id:"min", hidden:true, label:"Минимальное значение", name:"term2", labelPosition:"top"},
+                                { view:"text",id:"max", hidden:true, label:"Максимальное значение", name:"term3", labelPosition:"top"},
+                                { view:"text",id:"line", hidden:true, label:"Значение", name:"term4", labelPosition:"top"},
+                                { margin:5, cols:[
+                                    {
+                                         view:"button", value:"Добавить" , css:"webix_primary",  click:function(id,event){
+                                            var terms = $$("terms").getValues(terms);
+                                            $$("dataview").add(
+                                                terms
+                                            );
+                                            $$('window_terms').close()
+                                    }
+                                },
+                                ]}
+                            ]
+                            }
+                        }).show();
+
+                },
+                type:"icon", icon:"wxi-plus",label:"Добавить условие", fillspace:true
+            },
             { margin:5, cols:[
                 {
                      view:"button", value:"Подтвердить" , css:"webix_primary",  click:function(id,event){
 
 
                             var formvalues3 = $$("newanswer").getValues();
+                            formvalues3.jsonopts=$$("dataview").serialize()
                             if (item) {
                                 formvalues3.id=item.id
                             }
@@ -43,7 +118,10 @@ function offers_page()
             .show();     
             if (item) {
 
-                var setvalues = $$("newanswer").setValues(item);
+                $$("newanswer").setValues(item);
+                $$("dataview").parse(
+                    item.jsonopts
+                );
 
             }
     }
@@ -87,7 +165,6 @@ function offers_page()
                     { id:"name",   header:"Название",   fillspace:true},
                     { id:"description",    header:"Описание", fillspace:true},
                     { id:"link",   header:"Ссылка",   fillspace:true},
-                    { id:"jsonopts",    header:"jsonopts", fillspace:true},
                     {id:"delete", 
                     header:"&nbsp;", 
                     width:99, 
