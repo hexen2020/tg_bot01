@@ -70,6 +70,16 @@ app.get('/hello4', (req, res) => {
     })
 });
 
+app.get('/geo', (req, res) => {
+  geo=[]
+  connection.query("SELECT NAME AS geo,-1 AS active FROM regions", function(err, baseresults) {
+      baseresults.forEach((item)=>{
+        geo.push(item)
+      })
+      res.json(geo);
+    })
+});
+
 
 let bodyParser = require('body-parser');
 const e = require('express');

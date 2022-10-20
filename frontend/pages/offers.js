@@ -14,9 +14,14 @@ function offers_page()
         id:"newanswer",
         elements:[
             { view:"text", label:"Название", name:"name", labelPosition:"top"},
-            { view:"text", label:"Описание", name:"description", labelPosition:"top"},
+            {view:"textarea",name:"description",label:"Описание", labelPosition:"top", height:150},
             { view:"text", label:"Ссылка", name:"link", labelPosition:"top"},
-            { view:"dataview",id:"dataview", height:300,width:600, xCount:4, yCount:4, template:"#term1#,#term2#,#term3#,<span class='trash'><b> Удалить</b></span>", data:[],
+            { view:"dataview",id:"dataview", height:300,width:600, type:{
+                width: 600,
+                height: 120
+            },xCount:1, yCount:1,
+
+             template:"<b>Минимальное значение:</b>#term1# <b>Максимальное значение:</b>#term2#<br><b>Строка</b>:#term3#<br><b>Исключить регион:</b>#geo#<br><span class='trash'><i><b>Удалить условие</b></i></span>", data:[],
             label:"jsonopts", name:"jsonopts", labelPosition:"top",
             onClick:{"trash":function(e,id,node){            
                 $$("dataview").remove(id);
@@ -40,43 +45,65 @@ function offers_page()
                                 elements:[ 
                                 { view:"text", label:"Вопрос", name:"term1", labelPosition:"top"},
                                 { view:"select", label:"Тип ответа", name:"type", labelPosition:"top",options:[
-                                    {"value":"Не выбран" },
                                     {"value":"Число" },
                                     {"value":"Геолокация" },
                                     {"value":"Строка" },
                                 ],
                                 on:{
                                     onChange: function(newValue, oldValue, config){
-                                        if (newValue=="Не выбран") {
-                                            $$("min").hide()
-                                            $$("max").hide()
-                                            $$("line").hide()
-                                        }
+                                        $$("min").hide()
+                                        $$("max").hide()
+                                        $$("geo").hide()
+                                        $$("line").hide()
+
+                                       
                                         if (newValue=="Число") {
                                             $$("min").show()
                                             $$("max").show()
-                                            $$("line").hide()
+                                            
                                         }
                                         if (newValue=="Геолокация") {
-                                            $$("min").hide()
-                                            $$("max").hide()
-                                            $$("line").hide()
+                    
+                                            $$("geo").show()
                                         }
                                         if (newValue=="Строка") {
-                                            $$("min").hide()
-                                            $$("max").hide()
+   
                                             $$("line").show()
+
                                         }
                                     }
                                   }
                             },
-                                { view:"text",id:"min", hidden:true, label:"Минимальное значение", name:"term2", labelPosition:"top"},
-                                { view:"text",id:"max", hidden:true, label:"Максимальное значение", name:"term3", labelPosition:"top"},
+                                { view:"text",id:"min", label:"Минимальное значение", name:"term2", labelPosition:"top"},
+                                { view:"text",id:"max", label:"Максимальное значение", name:"term3", labelPosition:"top"},
                                 { view:"text",id:"line", hidden:true, label:"Значение", name:"term4", labelPosition:"top"},
+                                {view:"datatable", id:"geo", hidden:true, editable:true,
+    columns:[
+        { id:"geo",    header:"Регион",fillspace:true},
+        { id:"active",   header:"Исключить",    width:150,editor:"select", options:[{id:1,value:"Да"},{id:-1,value:"Нет"}]},
+    ],
+    url:"http://localhost:3000/geo"
+    },
                                 { margin:5, cols:[
                                     {
                                          view:"button", value:"Добавить" , css:"webix_primary",  click:function(id,event){
                                             var terms = $$("terms").getValues(terms);
+ 
+                                            if (terms.type=="Геолокация")
+                                            {
+                                                $$('geo').filter('#active#',1)
+                                                $$('geo').editStop();
+                                                let geo_table=$$('geo').serialize()
+                                                let geo=[]
+                                                geo_table.forEach((item)=>{
+                                                if (item.active==1)
+                                                {
+                                                    geo.push(item.geo)
+                                                }
+                                                })
+                                                terms.geo=geo.join(',')
+                                            }
+                                            console.log(terms)
                                             $$("dataview").add(
                                                 terms
                                             );
