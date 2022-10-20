@@ -4,7 +4,7 @@ class BotZaim {
     {
         this.anketa=anketa
         this.selectstep=0
-        this.users_data1={}
+        this.users_data={}
         this.selectbegin=false
         this.selectcomplete=false
 
@@ -16,10 +16,10 @@ class BotZaim {
     }
 
 
-    init(users_data1,client_id)
+    init(users_data,client_id)
     {
       this.client_id=client_id
-      this.users_data1=users_data1
+      this.users_data=users_data
     }
 
     think(message)
@@ -31,12 +31,12 @@ class BotZaim {
         let last_selectstep=this.base[this.selectstep-1]
         if (!this.verify(message,last_selectstep.type))
         {
-            return {
+            return [{
                 msg:last_selectstep.error,
                 opts:{}
-              }
+              }]
         }
-        this.users_data1[last_selectstep.question]=message
+        this.users_data[last_selectstep.question_small]=message
 
 
         this.connection.query("INSERT INTO selection_data (client_id,question_id,answer) VALUE ('"+this.client_id+"','"+last_selectstep.id+"','"+message+"')ON DUPLICATE KEY UPDATE answer='"+message+"'", function(err, data) {
@@ -49,12 +49,13 @@ class BotZaim {
       this.selectstep++
       if (this.selectstep>this.base.length-1)
       {
-        this.selectbegin=false
+        this.selectbegin=false 
         this.selectcomplete=true
         this.selectstep=0
+
       }
       if(my_selectstep.anketaopts.length>0)
-      {return {
+      {return [{
         msg:my_selectstep.question,
         opts:{
           "reply_markup": {
@@ -62,18 +63,18 @@ class BotZaim {
           },
           "parse_mode": "html"
         }
-      }
+      }]
     }
     else {
-      return {
+      return [{
         msg:my_selectstep.question,
         opts:{"parse_mode": "html"}
-      }
+      }]
 
     }
     }
       else {
-        return {
+        return [{
             msg:"<i>Для получения полного списка предложений и наилучшей выдачи результатов, необходимо заполнить профиль, нажав кнопку - <b>Заполнить профиль.</b> \nВНИМАНИЕ! У Вас еще не заполнен профиль — Вам доступны не все предложения.</i>",
             opts:{
                 reply_markup: {
@@ -87,7 +88,7 @@ class BotZaim {
                        ]},
                 parse_mode: 'html'
             }
-        }
+        }]
       }
     }
     verify(message,type)

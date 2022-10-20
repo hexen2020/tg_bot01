@@ -28,10 +28,10 @@ class BotAnketa {
         let verify_result=this.verify(message,last_step.type)
         if (!verify_result)
         {
-            return {
+            return [{
                 msg:last_step.error,
                 opts:{}
-              }
+              }]
         }
         if (last_step.type=="region") {message=verify_result}
         this.users_data[last_step.question_small]=message
@@ -54,7 +54,7 @@ class BotAnketa {
  
  
       if(my_step.anketaopts.length>0)
-      {return {
+      {return [{
         msg:my_step.question,
         opts:{
           "reply_markup": {
@@ -62,13 +62,13 @@ class BotAnketa {
           },
           "parse_mode": "html"
         }
-      }
+      }]
     }
     else {
-      return {
+      return [{
         msg:my_step.question,
         opts:{"parse_mode": "html"}
-      }
+      }]
 
     }
   }

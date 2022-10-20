@@ -35,6 +35,7 @@ const token = '5400109352:AAF6wtuT_CwF9U5mgcqirCZL9YNwczRjjEc'
 const bot = new TelegramBot(token, { polling: true })
 let users={}
 bot.on('callback_query', (query) => {
+  let timeout_message=-1
     const chatId = query.message.chat.id
     const user_id=query.message.chat.id
     if (!users[user_id])
@@ -42,7 +43,14 @@ bot.on('callback_query', (query) => {
     users[user_id]=new botManager(connection,user_id)
     }
     let result=users[user_id].think(query.data)
-    bot.sendMessage(chatId,result.msg,result.opts)
+
+result.forEach((msg,i)=>{
+  timeout_message=timeout_message+1
+  setTimeout(()=>{
+    bot.sendMessage(chatId,msg.msg,msg.opts)
+  },timeout_message *300)
+
+})
 
 })
 
@@ -51,7 +59,7 @@ const chatId = msg.chat.id
 const user_id=msg.chat.id
 const first_name=msg.chat.first_name
 const last_name=msg.chat.last_name
-let timeout_message=0
+let timeout_message=-1
 
 if (!users[user_id])
 {
@@ -81,7 +89,7 @@ if (!users[user_id])
               ],
         },
         parse_mode: 'html'})
-        timeout_message=1
+        timeout_message=0
 }
 else
 {
@@ -112,16 +120,19 @@ else
                   ],
             },
             parse_mode: 'html'})
-            timeout_message=3
+            timeout_message=2
     }
 }
 
 let result=users[user_id].think(msg.text)
+result.forEach((msg,i)=>{
+  timeout_message=timeout_message+1
+  setTimeout(()=>{
+    bot.sendMessage(chatId,msg.msg,msg.opts)
+  },timeout_message *300)
 
-setTimeout(()=>{
+})
 
-    bot.sendMessage(chatId,result.msg,result.opts)
-},timeout_message*300)
 
 
 })

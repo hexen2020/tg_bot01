@@ -22,7 +22,7 @@ class BotProfile {
 
         if (this.anketa.complete)
         {
-            return {
+            return [{
                 msg:"<b>Ваш профиль</b>\n"+message,
                 opts:{
                     reply_markup: {
@@ -36,11 +36,11 @@ class BotProfile {
                            ]},
                     parse_mode: 'html'
                 }
-            }
+            }]
         }
         else
         {
-            return {
+            return [{
                 msg:"<i>Для получения полного списка предложений и наилучшей выдачи результатов, необходимо заполнить профиль, нажав кнопку - <b>Заполнить профиль.</b> \nВНИМАНИЕ! У Вас еще не заполнен профиль — Вам доступны не все предложения.</i>",
                 opts:{
                     reply_markup: {
@@ -54,7 +54,7 @@ class BotProfile {
                            ]},
                     parse_mode: 'html'
                 }
-            }
+            }]
         }
     }
 }

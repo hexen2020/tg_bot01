@@ -125,11 +125,11 @@ function selections_page()
 
 
             columns:[
-                { id:"id",   header:"Номер вопроса",   fillspace:true},
+                { id:"id",   header:"Номер вопроса",   width:80},
                 { id:"question",   header:"Вопрос анкеты",   fillspace:true},
-                { id:"type",   header:"Тип ответа пользователя",   fillspace:true},
-                { id:"error",    header:"Ответ бота при ошибке", fillspace:true},
-                { id:"question_small",   header:"Краткий вопрос для профиля",fillspace:true},
+                { id:"type",   header:"Тип ответа пользователя",   width:120},
+                { id:"error",    header:"Ответ бота при ошибке", width:250},
+                { id:"question_small",   header:"Краткий вопрос для профиля",width:300},
                 {id:"delete", 
                 header:"&nbsp;", 
                 width:99, 

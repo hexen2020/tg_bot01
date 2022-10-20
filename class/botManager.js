@@ -16,7 +16,7 @@ class BotManager {
     this.anketa=new botAnketa(connection)
     this.profile=new botProfile(this.anketa)
     this.zaim=new botZaim(this.anketa,connection)
-    this.offer=new botOffer(this.anketa,connection)
+    this.offer=new botOffer(this.anketa,this.zaim,connection)
 
 
 
@@ -29,12 +29,12 @@ class BotManager {
         _this.anketa.init(users_data,user_id)
       })
 
-      _this.connection.query("SELECT * FROM selection_data WHERE client_id="+user_id, function(err, anketa1) {
-        let users_data1={}
+      _this.connection.query("SELECT question_id,question,answer,question_small FROM selection_data LEFT JOIN questions ON questions.id=selection_data.question_id WHERE client_id=(SELECT id FROM clients WHERE chatid='"+user_id+"')", function(err, anketa1) {
+        let users_data={}
         anketa1.forEach((item)=>{
-          users_data1[item.label]=item.value
+          users_data[item.question_small]=item.answer
         })
-        _this.zaim.init(users_data1,user_id)
+        _this.zaim.init(users_data,user_id)
         
       })
     }
@@ -197,7 +197,20 @@ class BotManager {
         }
         if (this.zaim.selectbegin)
         {
-           return this.zaim.think(message)
+           result=[]
+           this.zaim.think(message).forEach((msg)=>
+           {
+           result.push(msg)
+           })
+
+           if (!this.zaim.selectbegin)
+           {
+            this.offer.think(message).forEach((msg)=>
+            {
+            result.push(msg)
+            })
+           }
+           return result
         }
         if (this.offer.offerbegin)
         {
@@ -212,17 +225,17 @@ class BotManager {
                   result=item.logic.think(message)
                 }else
                 {
-                    result=item.result
+                    result=[item.result]
                 }
                 
             }
         })
         if (!result)
         {
-          return {
+          return [{
             msg:"Ошибка, попробуйте ещё раз",
             opts:{}
-          }
+          }]
         }
        return result
     }

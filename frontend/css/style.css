@@ -1,0 +1,30 @@
+.range_number
+{ 
+display:none;
+}
+
+.number .range_number
+{
+display: block;
+}
+
+.range_string
+{ 
+display:none;
+}
+
+.string .range_string
+{
+display: block;
+}
+
+.range_geo
+{ 
+display:none;
+}
+
+.location .range_geo
+{
+display: block;
+}
+
