@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tgbotfront
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tgbotfront
+  template:
+    metadata:
+      labels:
+        app: tgbotfront
+    spec:
+      containers:
+        - name: tgbotfront  
+          ports:
+          - containerPort: 3000
+          image: cr.yandex/crpsdtfa3vma0tp41r1e/tgbotfront:1.0.14
+          imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tgbotfrontservice
+spec:
+  selector:
+    app: tgbotfront
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: LoadBalancer
