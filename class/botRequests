@@ -7,6 +7,7 @@ class BotRequests {
         this.base1=[]
         this.base2=[]
         this.base3=[]
+        this.base4=[]
         this.baseregions=[]
 
         this.connection.query("SELECT * FROM questions", function(err, baseresults) {
@@ -36,6 +37,16 @@ class BotRequests {
               {item.jsonopts=JSON.parse(item.jsonopts)}
               else {item.jsonopts=[]}
               _this.base3.push(item)
+  
+            })
+          })
+
+          this.connection.query("SELECT * FROM startpage", function(err, startresult) {
+            startresult.forEach((item)=>{
+              if (item.opts.length>0)
+              {item.opts=JSON.parse(item.opts)}
+              else {item.opts=[]}
+              _this.base4.push(item)
   
             })
           })

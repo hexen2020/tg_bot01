@@ -2,6 +2,7 @@ const botAnketa = require('./botAnketa')
 const botProfile = require('./botProfile')
 const botZaim = require('./botZaim')
 const botOffer = require('./botOffer')
+const botStart = require('./botStart')
 
 
 
@@ -17,24 +18,26 @@ class BotManager {
     this.profile=new botProfile(this.anketa)
     this.zaim=new botZaim(this.anketa,connection)
     this.offer=new botOffer(this.anketa,this.zaim,connection)
+    this.start=new botStart()
 
 
 
     function connectbase(user_id) {
-      _this.connection.query("SELECT question_id,question,answer,question_small FROM clients_data LEFT JOIN questions ON questions.id=clients_data.question_id WHERE client_id=(SELECT id FROM clients WHERE chatid='"+user_id+"')", function(err, anketa) {
+      _this.connection.query("SELECT question_id,question,answer,question_small FROM clients_data LEFT JOIN questions ON questions.id=clients_data.question_id WHERE client_id='"+user_id+"'", function(err, anketa) {
         let users_data={}
+        
         anketa.forEach((item)=>{
           users_data[item.question_small]=item.answer
         })
         _this.anketa.init(users_data,user_id)
       })
 
-      _this.connection.query("SELECT question_id,question,answer,question_small FROM selection_data LEFT JOIN questions ON questions.id=selection_data.question_id WHERE client_id=(SELECT id FROM clients WHERE chatid='"+user_id+"')", function(err, anketa1) {
-        let users_data={}
+      _this.connection.query("SELECT question_id,question,answer,question_small FROM selection_data LEFT JOIN questions ON questions.id=selection_data.question_id WHERE client_id='"+user_id+"'", function(err, anketa1) {
+        let users_data1={}
         anketa1.forEach((item)=>{
-          users_data[item.question_small]=item.answer
+          users_data1[item.question_small]=item.answer
         })
-        _this.zaim.init(users_data,user_id)
+        _this.zaim.init(users_data1,user_id)
         
       })
     }
@@ -63,21 +66,7 @@ class BotManager {
         },
         {
             message:"/start",
-            result:{
-                msg:"<i>Для получения полного списка предложений и наилучшей выдачи результатов, необходимо заполнить профиль, нажав кнопку - <b>Заполнить профиль.</b> \nВНИМАНИЕ! У Вас еще не заполнен профиль — Вам доступны не все предложения.</i>",
-                opts:{
-                  reply_markup: {
-                    inline_keyboard: [
-                        [
-                            {
-                              text: 'Заполнить профиль',
-                              callback_data: 'k11'
-                            }
-                        ],
-                       ]},
-                    parse_mode: 'html'
-                },
-            }
+            logic: this.start
         },
         {
             message:"Помощь",
@@ -112,6 +101,10 @@ class BotManager {
           message:"Профиль",
           logic: this.profile
       },
+      {
+        message:"Заполнить профиль",
+        logic: this.profile
+    },
       {
         message:"k11",
         logic: this.anketa

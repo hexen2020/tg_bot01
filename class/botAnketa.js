@@ -9,7 +9,7 @@ class BotAnketa {
         this.complete=false
         let _this=this
 
-
+        this.users_data={}
         this.base=global.requests.base1
     }
 

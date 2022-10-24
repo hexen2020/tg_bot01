@@ -6,6 +6,8 @@
     <script type="text/javascript" src="pages/selections.js"></script>
     <script type="text/javascript" src="pages/offers.js"></script>
     <script type="text/javascript" src="pages/clients.js"></script>
+    <script type="text/javascript" src="pages/startpage.js"></script>
+    <script type="text/javascript" src="pages/bestpage.js"></script>
     <script type="text/javascript" src="pages/settings.js"></script>
     <link rel="stylesheet" type="text/css" href="webix/codebase/webix.css?v=7.4.0">
     <link rel="stylesheet" type="text/css" href="css/style.css">
@@ -36,6 +38,16 @@ if (page=="clients")
     body=clients_page()
 }
 
+if (page=="startpage")
+{
+    body=startpage_page()
+}
+
+if (page=="bestpage")
+{
+    body=bestpage_page()
+}
+
 if (page=="settings")
 {
     body=settings_page()
@@ -61,6 +73,8 @@ $$("render_body").addView(body)
             {id: "selections", value:"Анкета для подбора займа"},
             {id: "offers", value:"Офферы"},
             {id: "clients", value:"Профили клиентов"},
+            {id: "startpage", value:"Начальная страница"},
+            {id: "bestpage", value:"Рейтинг МФО"},
             {id: "settings", value:"Настройки"}
         ], 
         on:{

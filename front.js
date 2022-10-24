@@ -3,6 +3,8 @@ const express = require('express');
 const app = express();
 const mysql = require("mysql2")
 
+// https://api.messagebotfarm.ru/ - serv
+// http://localhost:3000/ - local
 
 var cors = require('cors')
 app.use(cors())
@@ -70,6 +72,19 @@ app.get('/hello4', (req, res) => {
     })
 });
 
+app.get('/hello5', (req, res) => {
+  base5=[]
+  connection.query("SELECT * FROM startpage", function(err, baseresults) {
+      baseresults.forEach((item)=>{
+        if (item.opts.length>0)
+        {item.opts=JSON.parse(item.opts)}
+        else {item.opts=[]}
+        base5.push(item)
+      })
+      res.json(base5);
+    })
+});
+
 app.get('/geo', (req, res) => {
   geo=[]
   connection.query("SELECT NAME AS geo,-1 AS active FROM regions", function(err, baseresults) {
@@ -102,6 +117,14 @@ connection.query("INSERT INTO questions(question,anketaopts,TYPE,ERROR,question_
     res.send("ok")
 })
 }
+});
+
+app.post('/startpageformvalues', (req, res) => {
+  if (req.body.id){
+    connection.query("UPDATE startpage SET msg = '"+req.body.msg+"',opts = '"+req.body.opts+"' WHERE id='"+req.body.id+"'", function(err, data) {
+      res.send("ok")
+  })
+  }
 });
 
   app.post('/formvalues2', (req, res) => {

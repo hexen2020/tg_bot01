@@ -21,7 +21,7 @@ class BotOffer {
     this.base=[]
    // console.log(global.requests.base3)
    // console.log(this.anketa.users_data)
-  console.log(this.zaim.users_data)
+  //console.log(this.zaim.users_data)
     let _this=this
     global.requests.base3.forEach((offer)=>{
      let opts=offer.jsonopts

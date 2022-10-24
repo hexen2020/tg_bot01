@@ -4,7 +4,7 @@ class BotZaim {
     {
         this.anketa=anketa
         this.selectstep=0
-        this.users_data={}
+        this.users_data1={}
         this.selectbegin=false
         this.selectcomplete=false
 
@@ -16,10 +16,10 @@ class BotZaim {
     }
 
 
-    init(users_data,client_id)
+    init(users_data1,client_id)
     {
       this.client_id=client_id
-      this.users_data=users_data
+      this.users_data1=users_data1
     }
 
     think(message)
@@ -36,7 +36,7 @@ class BotZaim {
                 opts:{}
               }]
         }
-        this.users_data[last_selectstep.question_small]=message
+        this.users_data1[last_selectstep.question_small]=message
 
 
         this.connection.query("INSERT INTO selection_data (client_id,question_id,answer) VALUE ('"+this.client_id+"','"+last_selectstep.id+"','"+message+"')ON DUPLICATE KEY UPDATE answer='"+message+"'", function(err, data) {

@@ -5,6 +5,7 @@ class BotProfile {
     this.anketa=anketa
 
 
+
     }
 
 
@@ -16,11 +17,11 @@ class BotProfile {
         let message=""
         for (let key in this.anketa.users_data) {
             if (key.length>0)
-            {message+=key+" "+this.anketa.users_data[key]+"\n"}
+            {message+=key+": "+this.anketa.users_data[key]+"\n"}
           }
 
-
-        if (this.anketa.complete)
+          var size = Object.keys(this.anketa.users_data).length;
+        if (size>0)
         {
             return [{
                 msg:"<b>Ваш профиль</b>\n"+message,
