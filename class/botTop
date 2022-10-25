@@ -1,0 +1,55 @@
+let moment = require('moment');
+
+class BotTop {
+  
+    constructor()
+    {
+        this.base5=global.requests.base5
+        this.base6=global.requests.base6
+        this.topnull=global.requests.topnull
+        this.topstandart=global.requests.topstandart
+        this.topbad=global.requests.topbad
+        //console.log(this.topnull)
+        //console.log(this.topstandart)
+
+    }
+
+    think()
+    {
+
+        let data=moment().format('l');
+
+      //  console.log(this.topnull[0].name)
+
+        let nulls=""
+        this.topnull.forEach((item)=>{
+
+          nulls+='<a href=\''+item.link+'\'>'+item.name+'</a>'+"\n" 
+        })
+
+        let standarts=""
+        this.topstandart.forEach((item)=>{
+          standarts+='<a href=\''+item.link+'\'>'+item.name+'</a>'+"\n" 
+        })
+
+        let bad=""
+        this.topbad.forEach((item)=>{
+          bad+='<a href=\''+item.link+'\'>'+item.name+'</a>'+"\n" 
+        })
+
+
+
+        return [{
+        msg:this.base5[0].msg+" "+data+"\n \n⚡ Займы под 0%: \n"+nulls+"\n"+"Займы под обычный процент: \n"+standarts+"\n"+"Займы с плохой предитной историей: \n"+bad+"\n"+this.base6[0].msg,
+        opts:{
+            "reply_markup": {
+              "inline_keyboard":  this.base6[0].opts.map((n) => [n])
+            },
+            "parse_mode": "html"
+          }
+      }]
+    }
+}
+
+
+module.exports = BotTop;

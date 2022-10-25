@@ -85,6 +85,62 @@ app.get('/hello5', (req, res) => {
     })
 });
 
+app.get('/hello6', (req, res) => {
+  base6=[]
+  connection.query("SELECT * FROM offertextstart", function(err, baseresults) {
+      baseresults.forEach((item)=>{
+
+        base6.push(item)
+      })
+      res.json(base6);
+    })
+});
+
+app.get('/hello7', (req, res) => {
+  base7=[]
+  connection.query("SELECT * FROM offertextend", function(err, baseresults) {
+      baseresults.forEach((item)=>{
+        if (item.opts.length>0)
+        {item.opts=JSON.parse(item.opts)}
+        else {item.opts=[]}
+        base7.push(item)
+      })
+      res.json(base7);
+    })
+});
+
+app.get('/topnull', (req, res) => {
+  basetopnull=[]
+  connection.query("SELECT * FROM offers WHERE top='Да, под 0'", function(err, baseresults) {
+      baseresults.forEach((item)=>{
+        basetopnull.push(item)
+      })
+      res.json(basetopnull);
+    })
+});
+
+app.get('/topstandart', (req, res) => {
+  basetopstandart=[]
+  connection.query("SELECT * FROM offers WHERE top='Да, под обычный процент'", function(err, baseresults) {
+      baseresults.forEach((item)=>{
+        basetopstandart.push(item)
+      })
+      res.json(basetopstandart);
+    })
+});
+
+app.get('/topbad', (req, res) => {
+  basetopbad=[]
+  connection.query("SELECT * FROM offers WHERE top='Да, с плохой кредитной историей'", function(err, baseresults) {
+      baseresults.forEach((item)=>{
+        basetopbad.push(item)
+      })
+      res.json(basetopbad);
+    })
+});
+
+
+
 app.get('/geo', (req, res) => {
   geo=[]
   connection.query("SELECT NAME AS geo,-1 AS active FROM regions", function(err, baseresults) {
@@ -127,6 +183,22 @@ app.post('/startpageformvalues', (req, res) => {
   }
 });
 
+app.post('/offertextstart', (req, res) => {
+  if (req.body.id){
+    connection.query("UPDATE offertextstart SET msg = '"+req.body.msg+"' WHERE id='"+req.body.id+"'", function(err, data) {
+      res.send("ok")
+  })
+  }
+});
+
+app.post('/offertextend', (req, res) => {
+  if (req.body.id){
+    connection.query("UPDATE offertextend SET msg = '"+req.body.msg+"',opts = '"+req.body.opts+"' WHERE id='"+req.body.id+"'", function(err, data) {
+      res.send("ok")
+  })
+  }
+});
+
   app.post('/formvalues2', (req, res) => {
     if (req.body.id){
       connection.query("UPDATE selection SET question = '"+req.body.question+"',anketaopts = '"+req.body.anketaopts+"',TYPE = '"+req.body.type+"',ERROR = '"+req.body.error+"',question_small = '"+req.body.question_small+"' WHERE id='"+req.body.id+"'", function(err, data) {
@@ -144,12 +216,12 @@ app.post('/startpageformvalues', (req, res) => {
 
     app.post('/formvalues3', (req, res) => {
       if (req.body.id){
-        connection.query("UPDATE offers SET name = '"+req.body.name+"',description = '"+req.body.description+"',link = '"+req.body.link+"',jsonopts = '"+req.body.jsonopts+"' WHERE id='"+req.body.id+"'", function(err, data) {
+        connection.query("UPDATE offers SET name = '"+req.body.name+"',description = '"+req.body.description+"',link = '"+req.body.link+"',top = '"+req.body.top+"',jsonopts = '"+req.body.jsonopts+"' WHERE id='"+req.body.id+"'", function(err, data) {
           res.send("ok")
       })
       }
       else {
-    connection.query("INSERT INTO offers(name,description,link,jsonopts) VALUE ('"+req.body.name+"','"+req.body.description+"','"+req.body.link+"','"+req.body.jsonopts+"')", function(err, data) {
+    connection.query("INSERT INTO offers(name,description,link,top,jsonopts) VALUE ('"+req.body.name+"','"+req.body.description+"','"+req.body.link+"',top = '"+req.body.top+"','"+req.body.jsonopts+"')", function(err, data) {
         res.send("ok")
     })
     }
@@ -180,6 +252,9 @@ app.post('/deleteform4', (req, res) => {
         res.send("ok")
       }) 
       });
+
+
+
 
 
 

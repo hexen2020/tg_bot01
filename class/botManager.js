@@ -3,6 +3,7 @@ const botProfile = require('./botProfile')
 const botZaim = require('./botZaim')
 const botOffer = require('./botOffer')
 const botStart = require('./botStart')
+const botTop = require('./botTop')
 
 
 
@@ -19,6 +20,7 @@ class BotManager {
     this.zaim=new botZaim(this.anketa,connection)
     this.offer=new botOffer(this.anketa,this.zaim,connection)
     this.start=new botStart()
+    this.top=new botTop()
 
 
 
@@ -173,10 +175,7 @@ class BotManager {
         },
         {
           message:"предложения",
-          result:{
-              msg:"⭐Популярные предложения \n Тут будет список лучших предложений",
-              opts:{}
-          }
+          logic: this.top
       },
      ]
     }  

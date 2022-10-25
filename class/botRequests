@@ -8,7 +8,12 @@ class BotRequests {
         this.base2=[]
         this.base3=[]
         this.base4=[]
+        this.base5=[]
+        this.base6=[]
         this.baseregions=[]
+        this.topnull=[]
+        this.topstandart=[]
+        this.topbad=[]
 
         this.connection.query("SELECT * FROM questions", function(err, baseresults) {
             baseresults.forEach((item)=>{
@@ -50,7 +55,23 @@ class BotRequests {
   
             })
           })
+
+          this.connection.query("SELECT * FROM offertextstart", function(err, offerstartresult) {
+            offerstartresult.forEach((item)=>{
+              _this.base5.push(item)
   
+            })
+          })
+  
+          this.connection.query("SELECT * FROM offertextend", function(err, offerendresult) {
+            offerendresult.forEach((item)=>{
+              if (item.opts.length>0)
+              {item.opts=JSON.parse(item.opts)}
+              else {item.opts=[]}
+              _this.base6.push(item)
+  
+            })
+          })
 
           this.connection.query("SELECT * FROM regions", function(err, baseregions) {
             baseregions.forEach((item)=>{
@@ -59,13 +80,32 @@ class BotRequests {
   
             })
           })
+
+
+          this.connection.query("SELECT name,link FROM offers WHERE top='Да, под 0'", function(err, topnull) {
+            topnull.forEach((item)=>{
+              _this.topnull.push(item)
+            })
+          })
+
+          this.connection.query("SELECT name,link FROM offers WHERE top='Да, под обычный процент'", function(err, topstandart) {
+            topstandart.forEach((item)=>{
+              _this.topstandart.push(item)
+            })
+          })
+
+          this.connection.query("SELECT name,link FROM offers WHERE top='Да, с плохой кредитной историей'", function(err, topbad) {
+            topbad.forEach((item)=>{
+              _this.topbad.push(item)
+            })
+          })
+
+
+
+          
   
     }
 
-    1()
-    {
-      
-    }
 
 }
 module.exports = BotRequests;
