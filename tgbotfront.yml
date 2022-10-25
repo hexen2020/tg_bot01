@@ -16,7 +16,7 @@ spec:
         - name: tgbotfront  
           ports:
           - containerPort: 3000
-          image: cr.yandex/crpsdtfa3vma0tp41r1e/tgbotfront:1.0.14
+          image: cr.yandex/crpsdtfa3vma0tp41r1e/tgbotfront:1.0.15
           imagePullPolicy: Always
 ---
 apiVersion: v1

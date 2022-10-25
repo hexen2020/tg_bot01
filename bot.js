@@ -24,7 +24,7 @@ const botRequests = require('./class/botRequests')
 global.requests=new botRequests(connection)
  
 
-const token = '5400109352:AAF6wtuT_CwF9U5mgcqirCZL9YNwczRjjEc'
+const token = '5776133707:AAGmOcGr_D4tfIwfssqL8V1b68eXIgfDQuE'
 
 
 

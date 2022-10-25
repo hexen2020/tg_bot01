@@ -14,10 +14,10 @@ function clients_page()
                         text:"Отменить удаление будет невозможно"
                       })
                         .then(function(){
-                            webix.ajax().post("http://localhost:3000/deleteform4",id).then(function()
+                            webix.ajax().post("https://api.messagebotfarm.ru/deleteform4",id).then(function()
                                      {
                                             $$('datatable').clearAll()
-                                            $$('datatable').load("http://localhost:3000/hello4")
+                                            $$('datatable').load("https://api.messagebotfarm.ru/hello4")
                     
                                     });               
                         })

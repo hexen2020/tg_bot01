@@ -1,5 +1,5 @@
-version_bot = 1.0.13
-version_front = 1.0.14                             
+version_bot = 1.0.14
+version_front = 1.0.15                             
 
 build_bot:
 	docker build . -f DockerFile -t cr.yandex/crpsdtfa3vma0tp41r1e/tgbot:$(version_bot)
